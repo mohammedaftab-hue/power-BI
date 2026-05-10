@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tanqeeb Jobs — Market Intelligence Dashboard</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f4f0;--surface:#fff;--surface2:#f0efe9;
+  --border:rgba(0,0,0,0.09);--border2:rgba(0,0,0,0.15);
+  --text:#1a1a18;--text2:#5f5e5a;--text3:#9a9892;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;padding:2rem 1.5rem;min-height:100vh}
+.wrap{max-width:1080px;margin:0 auto}
+.hdr{margin-bottom:2rem;padding-bottom:1.25rem;border-bottom:0.5px solid var(--border2);display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.hdr h1{font-size:22px;font-weight:700;letter-spacing:-0.4px}
+.hdr p{font-size:13px;color:var(--text2);margin-top:4px}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:5px 12px;border-radius:20px;background:#E1F5EE;color:#0F6E56}
+.sec{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.8px;margin:0 0 1rem}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.5rem}
+.metric{background:var(--surface2);border-radius:8px;padding:16px}
+.metric-icon{font-size:20px;color:var(--text3);margin-bottom:8px}
+.metric-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.metric-val{font-size:30px;font-weight:700;letter-spacing:-1px;line-height:1}
+.metric-note{font-size:11px;color:var(--text3);margin-top:4px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.card{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:20px}
+.card-title{font-size:13px;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:7px}
+.card-title i{font-size:16px;color:var(--text3)}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.bar-lbl{font-size:12px;color:var(--text2);width:140px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{flex:1;background:var(--surface2);border-radius:4px;height:8px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px}
+.bar-n{font-size:12px;color:var(--text3);width:30px;text-align:right;flex-shrink:0}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2)}
+.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+.tag{padding:4px 11px;border-radius:20px;font-weight:600;line-height:1.4}
+.co-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:10px}
+.co-chip{background:var(--surface2);border-radius:8px;padding:12px 14px}
+.co-name{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+.co-count{font-size:11px;color:var(--text3)}
+.audit-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.audit-item{display:flex;gap:10px;align-items:flex-start;background:var(--surface2);border-radius:8px;padding:12px}
+.audit-item i{font-size:17px;flex-shrink:0;margin-top:1px}
+.audit-text{font-size:12px;color:var(--text2);line-height:1.5}
+.audit-text strong{display:block;font-weight:600;color:var(--text);margin-bottom:2px}
+.summary-box{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:20px;margin-bottom:14px}
+.summary-box h2{font-size:14px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.summary-box h2 i{font-size:16px;color:var(--text3)}
+.insight{display:flex;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)}
+.insight:last-child{border-bottom:none;padding-bottom:0}
+.insight-num{font-size:22px;font-weight:700;color:#185FA5;min-width:60px;flex-shrink:0;line-height:1.2}
+.insight-text{font-size:12px;color:var(--text2);line-height:1.6}
+.insight-text strong{color:var(--text);font-weight:600}
+.footer{margin-top:2rem;padding-top:1rem;border-top:0.5px solid var(--border2);font-size:11px;color:var(--text3);text-align:center}
+@media(max-width:680px){.metrics{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.audit-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hdr">
+    <div>
+      <h1>Tanqeeb Jobs — Market Intelligence Dashboard</h1>
+      <p>833 listings · Egypt tech &amp; engineering market · Scraped from tanqeeb.com</p>
+    </div>
+    <span class="badge"><i class="ti ti-report-analytics"></i> Full Audit Included</span>
+  </div>
+
+  <p class="sec">Overview</p>
+  <div class="metrics">
+    <div class="metric">
+      <div class="metric-icon"><i class="ti ti-briefcase"></i></div>
+      <div class="metric-label">Total listings</div>
+      <div class="metric-val">833</div>
+      <div class="metric-note">777 with job title</div>
+    </div>
+    <div class="metric">
+      <div class="metric-icon"><i class="ti ti-building"></i></div>
+      <div class="metric-label">Unique companies</div>
+      <div class="metric-val">261</div>
+      <div class="metric-note">95 missing name</div>
+    </div>
+    <div class="metric">
+      <div class="metric-icon"><i class="ti ti-world"></i></div>
+      <div class="metric-label">Remote roles</div>
+      <div class="metric-val">53</div>
+      <div class="metric-note">6.4% of all jobs</div>
+    </div>
+    <div class="metric">
+      <div class="metric-icon"><i class="ti ti-tags"></i></div>
+      <div class="metric-label">Skill categories</div>
+      <div class="metric-val">50</div>
+      <div class="metric-note">186 unspecified</div>
+    </div>
+  </div>
+
+  <p class="sec">Market Breakdown</p>
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-category"></i> Job categories</div>
+      <div id="cat-bars"></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-chart-donut"></i> Employment type</div>
+      <div style="position:relative;height:190px">
+        <canvas id="empChart" role="img" aria-label="Employment type donut chart">Not Specified 434, Full Time 346, Contract 47, Part Time 3, Internship 3.</canvas>
+      </div>
+      <div class="legend" id="emp-legend"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-map-pin"></i> Listings by city</div>
+      <div id="city-bars"></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-building-skyscraper"></i> Top companies by volume</div>
+      <div id="comp-bars"></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-title"><i class="ti ti-sparkles"></i> Hot keywords in job titles</div>
+    <p style="font-size:11px;color:var(--text3);margin-bottom:4px">Extracted from 777 titles — size reflects frequency</p>
+    <div class="tags" id="kw-tags"></div>
+  </div>
+
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-title"><i class="ti ti-star"></i> Top 10 hiring companies</div>
+    <div class="co-grid" id="co-grid"></div>
+  </div>
+
+  <p class="sec">Key Insights Summary</p>
+  <div class="summary-box">
+    <h2><i class="ti ti-bulb"></i> What the data tells us</h2>
+    <div class="insight">
+      <div class="insight-num">44%</div>
+      <div class="insight-text"><strong>Engineering &amp; AI/ML dominate the market.</strong> 238 of 833 listings are in Engineering (120) or AI/ML (118) roles — Egypt's tech sector is heavily skewed toward builders and machine learning practitioners.</div>
+    </div>
+    <div class="insight">
+      <div class="insight-num">65%</div>
+      <div class="insight-text"><strong>Cairo is the undisputed tech hub.</strong> 543 out of 833 listings are based in Cairo. Alexandria (32) and Giza (36) trail far behind, confirming Cairo's dominance as Egypt's primary employment market.</div>
+    </div>
+    <div class="insight">
+      <div class="insight-num">52%</div>
+      <div class="insight-text"><strong>Employment type is largely unknown.</strong> 434 listings have no employment type specified — a critical gap. Of those that do, Full Time (346) vastly outnumbers Contract (47), Part Time (3), and Internship (3).</div>
+    </div>
+    <div class="insight">
+      <div class="insight-num">6.4%</div>
+      <div class="insight-text"><strong>Remote work is rare but present.</strong> Only 53 listings explicitly mention "remote" in the job title. Given the sector's AI/ML focus, this figure is likely undercounted due to inconsistent tagging.</div>
+    </div>
+    <div class="insight">
+      <div class="insight-num">#1</div>
+      <div class="insight-text"><strong>Joveo AI is the top poster with 32 listings</strong>, followed by Vodafone Egypt (27) and Turing (23). The presence of global firms like Agoda, Deloitte, and Luxoft signals international demand for Egyptian tech talent.</div>
+    </div>
+  </div>
+
+  <p class="sec">Data Audit Report</p>
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-title"><i class="ti ti-shield-check"></i> Quality findings across 833 records</div>
+    <div class="audit-grid">
+      <div class="audit-item"><i class="ti ti-alert-triangle" style="color:#BA7517"></i><div class="audit-text"><strong>56 missing job titles</strong>Rows with no title — excluded from category and keyword analysis</div></div>
+      <div class="audit-item"><i class="ti ti-alert-triangle" style="color:#BA7517"></i><div class="audit-text"><strong>95 missing company names</strong>11.4% of records have no employer listed — limits company analysis</div></div>
+      <div class="audit-item"><i class="ti ti-alert-triangle" style="color:#BA7517"></i><div class="audit-text"><strong>54 missing locations</strong>No geographic data available for these listings</div></div>
+      <div class="audit-item"><i class="ti ti-alert-triangle" style="color:#BA7517"></i><div class="audit-text"><strong>186 unspecified skills</strong>"Not Mentioned" or blank — 22% of records lack skill data</div></div>
+      <div class="audit-item"><i class="ti ti-info-circle" style="color:#185FA5"></i><div class="audit-text"><strong>Location column is malformed</strong>Stored as "country\n, city" — required regex parsing to split correctly</div></div>
+      <div class="audit-item"><i class="ti ti-info-circle" style="color:#185FA5"></i><div class="audit-text"><strong>Skills column is overloaded</strong>Contains employment type, experience level, AND actual skills mixed together in one column</div></div>
+      <div class="audit-item"><i class="ti ti-circle-check" style="color:#0F6E56"></i><div class="audit-text"><strong>0 duplicate rows</strong>All 833 records are unique — no deduplication needed</div></div>
+      <div class="audit-item"><i class="ti ti-circle-check" style="color:#0F6E56"></i><div class="audit-text"><strong>All detail links are intact</strong>Every record has a valid, complete Tanqeeb URL</div></div>
+    </div>
+  </div>
+
+  <div class="footer">Generated by Claude &nbsp;·&nbsp; Tanqeeb Jobs Dataset &nbsp;·&nbsp; 833 records analysed</div>
+</div>
+
+<script>
+const cats=[
+  {l:'Engineering',n:120,c:'#185FA5'},
+  {l:'AI / ML',n:118,c:'#534AB7'},
+  {l:'Software Eng.',n:83,c:'#0F6E56'},
+  {l:'Data & Analytics',n:79,c:'#1D9E75'},
+  {l:'DevOps / Cloud',n:72,c:'#3B6D11'},
+  {l:'Data Science',n:42,c:'#BA7517'},
+  {l:'QA / Testing',n:40,c:'#993C1D'},
+  {l:'Management',n:28,c:'#993556'},
+  {l:'Backend',n:26,c:'#3266ad'},
+  {l:'Full Stack',n:23,c:'#639922'},
+  {l:'Other',n:199,c:'#888780'},
+];
+const catEl=document.getElementById('cat-bars');
+cats.forEach(c=>{
+  const pct=Math.round(c.n/199*100);
+  catEl.innerHTML+=`<div class="bar-row"><span class="bar-lbl" title="${c.l}">${c.l}</span><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${c.c}"></div></div><span class="bar-n">${c.n}</span></div>`;
+});
+
+const empD={labels:['Not specified','Full time','Contract','Part time','Internship'],data:[434,346,47,3,3],colors:['#888780','#185FA5','#534AB7','#0F6E56','#BA7517']};
+new Chart(document.getElementById('empChart'),{
+  type:'doughnut',
+  data:{labels:empD.labels,datasets:[{data:empD.data,backgroundColor:empD.colors,borderWidth:2,borderColor:'#fff',hoverOffset:4}]},
+  options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+ctx.label+': '+ctx.raw+' ('+Math.round(ctx.raw/833*100)+'%)'}}}}
+});
+const legEl=document.getElementById('emp-legend');
+empD.labels.forEach((l,i)=>{legEl.innerHTML+=`<span class="legend-item"><span class="legend-dot" style="background:${empD.colors[i]}"></span>${l} ${Math.round(empD.data[i]/833*100)}%</span>`;});
+
+const cities=[{l:'Cairo',n:543,c:'#185FA5'},{l:'Egypt (unspecified)',n:162,c:'#B5D4F4'},{l:'Unknown',n:54,c:'#888780'},{l:'Giza / Al Jizah',n:36,c:'#0F6E56'},{l:'Alexandria',n:32,c:'#534AB7'},{l:'Other',n:6,c:'#BA7517'}];
+const cityEl=document.getElementById('city-bars');
+cities.forEach(c=>{
+  const pct=Math.round(c.n/543*100);
+  cityEl.innerHTML+=`<div class="bar-row"><span class="bar-lbl">${c.l}</span><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${c.c}"></div></div><span class="bar-n">${c.n}</span></div>`;
+});
+
+const comps=[{l:'Joveo AI',n:32,c:'#534AB7'},{l:'Vodafone Egypt',n:27,c:'#185FA5'},{l:'Turing',n:23,c:'#0F6E56'},{l:'Sana Commerce',n:18,c:'#1D9E75'},{l:'Agoda',n:16,c:'#BA7517'},{l:'Orange',n:15,c:'#993C1D'},{l:'Deloitte ME',n:14,c:'#3B6D11'},{l:'Luxoft',n:12,c:'#993556'}];
+const compEl=document.getElementById('comp-bars');
+comps.forEach(c=>{
+  const pct=Math.round(c.n/32*100);
+  compEl.innerHTML+=`<div class="bar-row"><span class="bar-lbl" title="${c.l}">${c.l}</span><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${c.c}"></div></div><span class="bar-n">${c.n}</span></div>`;
+});
+
+const kws=[
+  {w:'engineer',n:369,s:20,bg:'#E6F1FB',fg:'#185FA5'},
+  {w:'senior',n:235,s:18,bg:'#EEEDFE',fg:'#534AB7'},
+  {w:'data',n:140,s:17,bg:'#E1F5EE',fg:'#0F6E56'},
+  {w:'AI',n:90,s:16,bg:'#FAEEDA',fg:'#BA7517'},
+  {w:'developer',n:80,s:15,bg:'#FAECE7',fg:'#993C1D'},
+  {w:'software',n:75,s:15,bg:'#EAF3DE',fg:'#3B6D11'},
+  {w:'scientist',n:37,s:14,bg:'#E6F1FB',fg:'#185FA5'},
+  {w:'devops',n:38,s:14,bg:'#EEEDFE',fg:'#534AB7'},
+  {w:'analyst',n:46,s:14,bg:'#E1F5EE',fg:'#0F6E56'},
+  {w:'remote',n:53,s:13,bg:'#FAEEDA',fg:'#BA7517'},
+  {w:'odoo',n:36,s:13,bg:'#FAECE7',fg:'#993C1D'},
+  {w:'specialist',n:35,s:13,bg:'#EAF3DE',fg:'#3B6D11'},
+  {w:'lead',n:52,s:13,bg:'#E6F1FB',fg:'#185FA5'},
+  {w:'architect',n:26,s:12,bg:'#EEEDFE',fg:'#534AB7'},
+  {w:'automation',n:29,s:12,bg:'#E1F5EE',fg:'#0F6E56'},
+  {w:'full stack',n:23,s:12,bg:'#FAEEDA',fg:'#BA7517'},
+  {w:'junior',n:18,s:12,bg:'#FAECE7',fg:'#993C1D'},
+  {w:'ML',n:20,s:12,bg:'#EAF3DE',fg:'#3B6D11'},
+];
+const kwEl=document.getElementById('kw-tags');
+kws.forEach(k=>{kwEl.innerHTML+=`<span class="tag" style="font-size:${k.s}px;background:${k.bg};color:${k.fg}">${k.w} <span style="opacity:0.6;font-size:11px">${k.n}</span></span>`;});
+
+const top10=[
+  {name:'Joveo AI',count:32},{name:'Vodafone Egypt',count:27},{name:'Turing',count:23},
+  {name:'Sana Commerce',count:18},{name:'Agoda',count:16},{name:'Orange',count:15},
+  {name:'Deloitte ME',count:14},{name:'Luxoft',count:12},{name:'AMIT Learning',count:11},{name:'IBM WTC Egypt',count:9}
+];
+const coEl=document.getElementById('co-grid');
+top10.forEach(c=>{coEl.innerHTML+=`<div class="co-chip"><div class="co-name" title="${c.name}">${c.name}</div><div class="co-count">${c.count} listing${c.count>1?'s':''}</div></div>`;});
+</script>
+</body>
+</html>
