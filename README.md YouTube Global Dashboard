@@ -1,0 +1,39 @@
+YouTube Global Dashboard
+📺 YouTube Global Statistics Dashboard
+Overview
+
+This project analyzes global YouTube channel statistics and trends through an interactive Power BI dashboard. The dashboard helps understand channel performance, subscriber growth, video engagement, and category-wise trends.
+
+Objectives
+Analyze top-performing YouTube channels.
+Compare subscribers, views, and uploads.
+Discover content category trends.
+Evaluate audience engagement metrics.
+Key Metrics
+Total Subscribers
+Total Video Views
+Total Uploads
+Average Views per Channel
+Channel Category Performance
+Dashboard Features
+Top channels ranking
+Country-wise channel distribution
+Category performance analysis
+Subscriber and views comparison
+Interactive filtering and drill-through
+Tools Used
+Power BI
+Excel/CSV
+DAX
+Data Modeling
+Business Insights
+Identified countries producing the highest-performing channels.
+Compared subscriber growth across categories.
+Highlighted channels with exceptional engagement rates.
+Revealed content trends driving audience growth.
+Skills Demonstrated
+Data Analysis
+Data Visualization
+Dashboard Design
+KPI Monitoring
+Business Intelligence
