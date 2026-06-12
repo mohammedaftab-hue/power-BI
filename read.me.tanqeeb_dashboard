@@ -1,0 +1,38 @@
+Tanqeeb Job Market Analysis Dashboard
+Overview
+
+This project analyzes job market trends using data collected from the Tanqeeb job portal. The dashboard provides insights into hiring patterns, job categories, company demand, and location-based opportunities.
+
+Objectives
+Analyze job postings across industries.
+Identify in-demand skills and roles.
+Evaluate hiring trends by location.
+Support career and recruitment decision-making.
+Key Metrics
+Total Job Postings
+Top Hiring Companies
+Most In-Demand Skills
+Jobs by Location
+Jobs by Industry
+Dashboard Features
+Job distribution analysis
+Industry-wise hiring trends
+Location-based opportunity analysis
+Skill demand visualization
+Interactive filtering capabilities
+Tools Used
+Power BI
+Python (Data Collection & Cleaning)
+Excel
+DAX
+Business Insights
+Identified fastest-growing job sectors.
+Highlighted high-demand technical skills.
+Revealed geographic hiring patterns.
+Compared hiring activity across industries.
+Skills Demonstrated
+Web Data Analysis
+Data Cleaning
+Power BI Development
+Business Intelligence
+Labor Market Analysis
